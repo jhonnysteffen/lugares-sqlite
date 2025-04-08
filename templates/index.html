@@ -5,59 +5,95 @@
     <title>Lugares para Conhecer Juntos</title>
     <style>
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #fff8f0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f2f2f2;
             color: #333;
-            max-width: 700px;
-            margin: auto;
-            padding: 2rem;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fff;
         }
-        h1 { color: #e85d75; text-align: center; }
-        form { margin-bottom: 2rem; }
+        h1 {
+            color: #e44d26;
+            text-align: center;
+        }
+        form {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
         input[type="text"] {
-            padding: 0.5rem;
-            width: calc(100% - 1rem);
-            margin-bottom: 1rem;
+            padding: 10px;
+            width: calc(100% - 22px);
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
         button {
-            background-color: #e85d75;
+            background-color: #e44d26;
             color: white;
             border: none;
-            padding: 0.5rem 1rem;
+            padding: 10px 15px;
             cursor: pointer;
             border-radius: 5px;
         }
-        .lugar {
-            background: #ffe8e0;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border-radius: 8px;
+        button:hover {
+            background-color: #d4411e;
         }
-        .visitado {
+        .lugar {
+            background: #fff3e0;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 5px solid #e44d26;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .lugar.visitado {
+            background: #e0f7fa;
+            border-left: 5px solid #26a69a;
             text-decoration: line-through;
-            opacity: 0.6;
+            opacity: 0.7;
+        }
+        .lugar div {
+            flex-grow: 1;
+        }
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+        .actions a {
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
     <h1>✨ Lugares para Conhecer com a gatona ai ✨</h1>
     <form method="POST">
-        <input type="text" name="nome" placeholder="Nome do lugar - Quero criatividade em kkk" required><br>
-        <input type="text" name="comida" placeholder="O que comer lá??" required><br>
-        <input type="text" name="essencial" placeholder="Não pode faltar...??" required><br>
+        <input type="text" name="nome" placeholder="Nome do lugar" required><br>
+        <input type="text" name="comida" placeholder="O que comer lá" required><br>
+        <input type="text" name="essencial" placeholder="Não pode faltar..." required><br>
         <button type="submit">Adicionar 💖</button>
     </form>
 
     {% for lugar in lugares %}
     <div class="lugar {% if lugar[4] %}visitado{% endif %}">
-        <strong>📍 {{ lugar[1] }}</strong><br>
-        🍴 {{ lugar[2] }}<br>
-        💫 {{ lugar[3] }}<br>
-        {% if not lugar[4] %}
-        <a href="/visitar/{{ lugar[0] }}"><button>Marcar como visitado ✅</button></a>
-        {% else %}
-        <span>✅ Visitado</span>
-        {% endif %}
+        <div>
+            <strong>📍 {{ lugar[1] }}</strong><br>
+            🍴 {{ lugar[2] }}<br>
+            💫 {{ lugar[3] }}
+        </div>
+        <div class="actions">
+            {% if lugar[4] %}
+            <a href="/desmarcar/{{ lugar[0] }}"><button style="background-color: #ff9800;">Desmarcar</button></a>
+            {% else %}
+            <a href="/visitar/{{ lugar[0] }}"><button>Marcar como visitado ✅</button></a>
+            {% endif %}
+            <a href="/deletar/{{ lugar[0] }}"><button style="background-color: #f44336;">Excluir</button></a>
+        </div>
     </div>
     {% endfor %}
 </body>

@@ -52,3 +52,22 @@ init_db()
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+@app.route("/desmarcar/<int:lugar_id>")
+def desmarcar(lugar_id):
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    cursor.execute("UPDATE lugares SET visitado = 0 WHERE id = ?", (lugar_id,))
+    conn.commit()
+    conn.close()
+    return redirect("/")
+
+@app.route("/deletar/<int:lugar_id>")
+def deletar(lugar_id):
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM lugares WHERE id = ?", (lugar_id,))
+    conn.commit()
+    conn.close()
+    return redirect("/")
+
